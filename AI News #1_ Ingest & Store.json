@@ -1,0 +1,949 @@
+{
+  "name": "AI News #1: Ingest & Store",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1088,
+        64
+      ],
+      "id": "99f9649c-880e-4007-8e0d-157392473ae1",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $('config').item.json.GOOGLE_SHEET_ID}}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ $('config').item.json.GOOGLE_SHEET_GID }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -768,
+        64
+      ],
+      "id": "ba3e9fa2-988c-4fb1-b49a-83eb2e8c018a",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FmcoDEhtCd7ozJtp",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -416,
+        64
+      ],
+      "id": "12a2764c-b52a-48b4-914e-fd60e500cbcf",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me",
+      "typeVersion": 1,
+      "position": [
+        1488,
+        432
+      ],
+      "id": "8ee6281f-62c0-4f4f-9d53-7b213b5e3f79"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appGEmHkDqdbaGHJZ",
+          "mode": "list",
+          "cachedResultName": "n8n_test",
+          "cachedResultUrl": "https://airtable.com/appGEmHkDqdbaGHJZ"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblxaxBGLLdlu6a2p",
+          "mode": "list",
+          "cachedResultName": "Table 3",
+          "cachedResultUrl": "https://airtable.com/appGEmHkDqdbaGHJZ/tblxaxBGLLdlu6a2p"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Title": "={{ $('Loop Over Items1').item.json.title }}",
+            "Link": "={{ $('Loop Over Items1').item.json.link }}",
+            "Summary": "={{ $('Loop Over Items1').item.json.summary }}",
+            "Date": "={{ $('Loop Over Items1').item.json.date }}",
+            "Source": "={{ $('Loop Over Items1').item.json.source }}",
+            "importance_score": "={{ $('Loop Over Items1').item.json.importance }}",
+            "virality_score": "={{ $('Loop Over Items1').item.json.virality }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Link",
+              "displayName": "Link",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Summary",
+              "displayName": "Summary",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Source",
+              "displayName": "Source",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Category",
+              "displayName": "Category",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "importance_score",
+              "displayName": "importance_score",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "virality_score",
+              "displayName": "virality_score",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        2384,
+        0
+      ],
+      "id": "9b9f7dec-5b85-40a9-8e89-8f7d729cf627",
+      "name": "Airtable"
+    },
+    {
+      "parameters": {
+        "mode": "jsonToxml",
+        "dataPropertyName": "=data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.xml",
+      "typeVersion": 1,
+      "position": [
+        560,
+        224
+      ],
+      "id": "d73ad772-efb1-49ce-9ef2-47f33646134d",
+      "name": "XML"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.itemType }}",
+                    "rightValue": "regular",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "dd9bf15a-7d17-4a99-bb06-84aa56d236e9"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "5b102931-f448-4417-8b81-a7a43c8d390c",
+                    "leftValue": "={{ $json.itemType }}",
+                    "rightValue": "weekly",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        368,
+        208
+      ],
+      "id": "981d3d81-1c6a-4831-9470-b32c60574738",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": "={{ $node[\"Loop Over Items1\"].context['done'] }}"
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1760,
+        0
+      ],
+      "id": "9a75f664-6058-414c-8d05-05a6845e8d2d",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me1",
+      "typeVersion": 1,
+      "position": [
+        2528,
+        352
+      ],
+      "id": "deb3031b-b4d6-4872-9239-0e13f6869b27"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "0808afdc-7873-4256-84ce-5e8b90439bbc",
+              "leftValue": "={{ Object.keys($json).length === 0 }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2160,
+        32
+      ],
+      "id": "98135d43-5f3c-48c2-8037-b65cf6d2de99",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "maxItems": 10
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        1024,
+        0
+      ],
+      "id": "35b49c27-20c8-4eb0-815b-b8734b30c134",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "601b531a-e4e0-49b5-b8da-282ef7934cdd",
+              "name": "GOOGLE_SHEET_ID",
+              "value": "1A025WyrJEIq6ea1v46Sges-wvPIGLmNVePw431BTdkg",
+              "type": "string"
+            },
+            {
+              "id": "32b248bf-7185-4662-be98-a0175b2b350f",
+              "name": "GOOGLE_SHEET_GID",
+              "value": 0,
+              "type": "number"
+            },
+            {
+              "id": "48a1f29b-29cd-49e8-92d2-9ce0b6f4361b",
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -928,
+        64
+      ],
+      "id": "47362359-0f54-4412-9120-f583524d9ae9",
+      "name": "config"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.filter(\n  item => (item.json.Active || '').trim().toUpperCase() === 'Y'\n);\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -608,
+        64
+      ],
+      "id": "7b725b68-bc67-4b0f-a49c-fabbbdb7dab5",
+      "name": "Filter Active Subscribers"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.Type }}",
+                    "rightValue": "single",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "4fd56cce-c9e1-4ef7-a312-0591e179cfda"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "8f33ab7a-7d8c-4df1-916c-82b40fa1a6fe",
+                    "leftValue": "={{ $json.Type }}",
+                    "rightValue": "aggregator",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -208,
+        80
+      ],
+      "id": "05382adb-ae06-489c-ab6e-2f94e58b557a",
+      "name": "Branch by Type"
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Loop Over Items').item.json.URL }}",
+        "options": {
+          "ignoreSSL": false
+        }
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "d84e850f-1239-427b-acca-2ebb050f977b",
+      "name": "Fetch RSS - Single"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.URL }}",
+        "options": {
+          "ignoreSSL": false
+        }
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        208
+      ],
+      "id": "82a93168-734f-4cd0-a42e-0fb3d917e6d2",
+      "name": "Fetch RSS - Aggregator"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "38b65fb7-01e0-464b-88f9-a4eed723fb63",
+              "name": "=title",
+              "value": "={{ $json[\"title\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "f8880609-ec34-41fe-b502-ae726403ed70",
+              "name": "=link",
+              "value": "={{ $json.link }}",
+              "type": "string"
+            },
+            {
+              "id": "3591b0fa-fe45-4b34-a381-8321498a13a1",
+              "name": "=summary",
+              "value": "={{ $json.contentSnippet }}",
+              "type": "string"
+            },
+            {
+              "id": "1696cb84-0a5c-4002-983a-2406f3feea5b",
+              "name": "=date",
+              "value": "={{ $json.pubDate }}",
+              "type": "string"
+            },
+            {
+              "id": "770b528d-4d2b-4125-bf12-a1e8a7f88890",
+              "name": "source",
+              "value": "={{ $('Loop Over Items').item.json.Name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        192,
+        0
+      ],
+      "id": "990dbc6f-407a-4006-bb94-b94f57a6870a",
+      "name": "Format RSS Item"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Modified Code2 - Split Weekly/Aggregated and Regular Items\nconst inputItems = $input.all();\nconst aggregatedItems = [];\nconst regularItems = [];\n\n// Keywords that indicate aggregated/compiled content\nconst weeklyPatterns = [\n    /this week'?s/i,\n    /weekly/i,\n    /roundup/i,\n    /stories from/i,\n    /through (july|june|may|april|march|february|january|december|jan|feb|mar|apr|jun|jul|aug|sep|oct|nov|dec)/i,\n    /through \\w+ \\d+/i,\n    /curation/i,\n    /digest/i,\n    /compilation/i,\n    /wrap.?up/i,\n    /tech stories/i,\n    /awesome.*stories/i,\n    /around the web/i,\n    /newsletter/i,\n    /daily.*stories/i,\n    /morning.*brief/i,\n    /evening.*update/i\n];\n\n// Check each item and categorize\ninputItems.forEach((item, index) => {\n    const data = item.json;\n    const title = (data.title || '').toLowerCase();\n    const creator = (data.creator || data['dc:creator'] || '').toLowerCase();\n    \n    // Check if title matches weekly/aggregated patterns\n    const isAggregated = weeklyPatterns.some(pattern => pattern.test(title));\n    \n    // Additional checks for common aggregator creators\n    const isStaffCreated = /staff|editorial|team/i.test(creator);\n    \n    if (isAggregated || isStaffCreated) {\n        // This is weekly/aggregated content\n        aggregatedItems.push({\n            json: {\n                ...data,\n                originalIndex: index,\n                detectedAs: 'aggregated_content',\n                matchReason: isAggregated ? 'title_pattern' : 'staff_creator',\n                itemType: 'weekly'\n            }\n        });\n    } else {\n        // This is regular content - format for Edit Fields1\n        regularItems.push({\n            json: {\n                title: data.title || '',\n                link: data.link || '',\n                contentSnippet: data.contentSnippet || '',\n                pubDate: data.pubDate || '',\n                source: data.source || '', // You might need to adjust this based on your data structure\n                originalIndex: index,\n                itemType: 'regular'\n            }\n        });\n    }\n});\n\n// Return both arrays - n8n will handle multiple outputs\nreturn [\n    ...aggregatedItems,  // Weekly items (will go to Switch1)\n    ...regularItems      // Regular items (will go to Edit Fields1)\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        192,
+        208
+      ],
+      "id": "d42c2f5a-3aba-40e9-b698-a6136ba294c0",
+      "name": "Split Aggregated and Single Items"
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code Node to extract individual news stories from SingularityHub weekly roundup\nconst extractedStories = [];\nconst source = $(\"Loop Over Items\").first().json.Name\n\n// Process each input item (each XML document)\nfor (const item of $input.all()) {\n  const data = item.json.data;\n  \n  // Extract main article metadata\n  const mainTitle = data.match(/<title>(.*?)<\\/title>/)?.[1] || '';\n  const mainLink = data.match(/<link>(.*?)<\\/link>/)?.[1] || '';\n  const pubDate = data.match(/<pubDate>(.*?)<\\/pubDate>/)?.[1] || '';\n  const creator = data.match(/<creator>(.*?)<\\/creator>/)?.[1] || '';\n  \n  // Get the HTML content - try different patterns\n  let htmlContent = '';\n  if (data.includes('<content:encoded>')) {\n    htmlContent = data.match(/<content:encoded>(.*?)<\\/content:encoded>/s)?.[1] || '';\n  }\n  \n  // Decode HTML entities\n  htmlContent = htmlContent\n    .replace(/&lt;/g, '<')\n    .replace(/&gt;/g, '>')\n    .replace(/&quot;/g, '\"')\n    .replace(/&#8220;/g, '\"')\n    .replace(/&#8221;/g, '\"')\n    .replace(/&#8217;/g, \"'\")\n    .replace(/&#8230;/g, '...')\n    .replace(/&amp;/g, '&')\n    .replace(/&nbsp;/g, ' ');\n\n\n  // Pattern to match the story blocks\n  const storyPattern = /<div class=\"is-style-curated-post[^>]*>[\\s\\S]*?<h4[^>]*><a[^>]*>([^<]+)<\\/a><\\/h4>[\\s\\S]*?<p><a href=\"([^\"]+)\"[^>]*><strong>([^<]+)<\\/strong><\\/a><em>([^<]+)<\\/em><\\/p>[\\s\\S]*?<p>\"([^\"]*)\"<\\/p>[\\s\\S]*?<\\/div>/g;\n  \n  let match;\n  let storyCount = 0;\n  \n  while ((match = storyPattern.exec(htmlContent)) !== null) {\n    storyCount++;\n    const [fullMatch, category, storyLink, storyTitle, author, excerpt] = match;\n    \n    console.log(`Story ${storyCount} found:`, {\n      category: category?.trim(),\n      title: storyTitle?.trim(),\n      link: storyLink?.trim()\n    });\n    \n    extractedStories.push({\n      date: pubDate,\n      title: storyTitle?.trim() || 'No Title',\n      summary: storyTitle?.trim() || 'No Summary',\n      link: storyLink?.trim() || '',\n      source: source,\n    });\n  }\n  \n  // If no stories found with first pattern, try simpler pattern\n  if (extractedStories.length === 0) {\n    console.log('Trying alternative pattern...');\n    \n    // Look for story links directly\n    const linkPattern = /<a href=\"(https:\\/\\/[^\"]+)\"[^>]*><strong>([^<]+)<\\/strong><\\/a><em>([^<]+)<\\/em>/g;\n    let linkMatch;\n    let altStoryCount = 0;\n    \n    while ((linkMatch = linkPattern.exec(htmlContent)) !== null) {\n      altStoryCount++;\n      const [, storyLink, storyTitle] = linkMatch;\n      \n      console.log(`Alt Story ${altStoryCount} found:`, {\n        title: storyTitle?.trim(),\n        link: storyLink?.trim()\n      });\n      \n      extractedStories.push({\n        date: pubDate,\n        title: storyTitle?.trim() || 'No Title',\n        summary: storyTitle?.trim() || 'No Summary',\n        link: storyLink?.trim() || '',\n        source: source,\n      });\n    }\n  }\n  \n  console.log(`Total stories extracted: ${extractedStories.length}`);\n}\n\n// If no stories found, return debug info\nif (extractedStories.length === 0) {\n  return [{\n    json: {\n      error: 'No stories found',\n      debug: 'Check console logs for HTML content',\n      input_keys: Object.keys($input.all()[0]?.json || {}),\n      data_preview: $input.all()[0]?.json?.data?.substring(0, 200) || 'No data'\n    }\n  }];\n}\n\n// Return each story as a separate item\nreturn extractedStories.map(story => ({ json: story }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        752,
+        224
+      ],
+      "id": "28eaac8d-feae-40eb-8bad-6f50dfee016a",
+      "name": "Extract Stories from Aggregator"
+    },
+    {
+      "parameters": {
+        "jsCode": "const today = new Date();\nconst sevenDaysAgo = new Date(today);\nsevenDaysAgo.setDate(today.getDate() - 7);\n\nreturn items.filter(item => {\n  const dateStr = item.json.date;\n  const articleDate = new Date(dateStr);\n  return articleDate >= sevenDaysAgo;\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        864,
+        0
+      ],
+      "id": "6c70443f-649a-462a-862c-b297c2720794",
+      "name": "Filter Past 7 Days"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4",
+          "mode": "list",
+          "cachedResultName": "GPT-4"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an AI news analyst. For the given article, analyze the content and assign a score from 1 to 10 for each of the following:\n1. Importance in the AI industry\n2. Virality or potential public impact\n\nRespond with ONLY a clean JSON object with no markdown formatting, no code blocks, no extra text, and no escape characters:\n\n{\"title\":\"[article title here]\",\"summary\":\"[article summary here]\",\"link\":\"[article link here]\",\"source\":\"[article source here]\",\"date\":\"[article date here]\",\"importance\":7,\"virality\":6}",
+              "role": "system"
+            },
+            {
+              "content": "=Title: {{ $json.title }}\nSummary: {{ $json.summary }}\nSource: {{ $json.source }}\nDate: {{ $json[\"date\"] }}\nLInk: {{ $json.link }}\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1200,
+        0
+      ],
+      "id": "85d82d44-c254-41f4-9db8-c9a18395e09c",
+      "name": "Score Articles with OpenAI"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Code Node to Extract News Data from OpenAI Response\n// Place this after your OpenAI node and before Airtable\n\n// Get the OpenAI response content - handle multiple items\nlet aiResponse = $json.message.content;\nlet inputItems = $input.all(); // Get all input items\n\n// Function to clean the response\nfunction cleanResponse(response) {\n  // Remove code blocks if present\n  response = response.replace(/```json\\n?/g, '').replace(/\\n?```/g, '');\n  \n  // Remove escape characters\n  response = response.replace(/\\\\n/g, ' ').replace(/\\\\\"/g, '\"');\n  \n  // Remove actual newlines and extra spaces\n  response = response.replace(/\\n/g, ' ').replace(/\\s+/g, ' ').trim();\n  \n  return response;\n}\n\n// Function to extract field using regex\nfunction extractField(text, fieldName) {\n  const regex = new RegExp(`\"${fieldName}\"\\\\s*:\\\\s*\"([^\"]*)\"`, 'i');\n  const match = text.match(regex);\n  return match ? match[1] : '';\n}\n\n// Function to extract numeric field\nfunction extractNumericField(text, fieldName) {\n  const regex = new RegExp(`\"${fieldName}\"\\\\s*:\\\\s*(\\\\d+)`, 'i');\n  const match = text.match(regex);\n  return match ? parseInt(match[1]) : 0;\n}\n\n// Process each input item\nlet results = [];\n\n// If there are multiple input items, process each one\nif (inputItems && inputItems.length > 0) {\n  inputItems.forEach((item, index) => {\n    try {\n      // Get the AI response for this item\n      let currentResponse = item.json.message ? item.json.message.content : aiResponse;\n      \n      // Clean the AI response\n      const cleanedResponse = cleanResponse(currentResponse);\n      \n      // Try to parse as JSON first\n      let extractedData;\n      try {\n        const parsedJson = JSON.parse(cleanedResponse);\n        extractedData = {\n          title: parsedJson.title || parsedJson.article?.title || '',\n          summary: parsedJson.summary || parsedJson.article?.summary || '',\n          link: parsedJson.link || parsedJson.article?.link || '',\n          source: parsedJson.source || parsedJson.article?.source || '',\n          date: parsedJson.date || parsedJson.article?.date || '',\n          importance: parsedJson.importance || parsedJson.analysis?.importance || 0,\n          virality: parsedJson.virality || parsedJson.analysis?.virality || 0\n        };\n      } catch (jsonError) {\n        // If JSON parsing fails, use regex extraction\n        extractedData = {\n          title: extractField(cleanedResponse, 'title'),\n          summary: extractField(cleanedResponse, 'summary'),\n          link: extractField(cleanedResponse, 'link'),\n          source: extractField(cleanedResponse, 'source'),\n          date: extractField(cleanedResponse, 'date'),\n          importance: extractNumericField(cleanedResponse, 'importance'),\n          virality: extractNumericField(cleanedResponse, 'virality')\n        };\n      }\n      \n      // Clean up any remaining escape characters in text fields\n      Object.keys(extractedData).forEach(key => {\n        if (typeof extractedData[key] === 'string') {\n          extractedData[key] = extractedData[key]\n            .replace(/\\\\n/g, ' ')\n            .replace(/\\\\t/g, ' ')\n            .replace(/\\s+/g, ' ')\n            .trim();\n        }\n      });\n      \n      // Add to results\n      results.push({\n        json: {\n          title: extractedData.title,\n          summary: extractedData.summary,\n          link: extractedData.link,\n          source: extractedData.source,\n          date: extractedData.date,\n          importance: extractedData.importance,\n          virality: extractedData.virality,\n        \n        }\n      });\n      \n    } catch (error) {\n      // If extraction fails for this item, add error object\n      results.push({\n        json: {\n          error: `Failed to extract data for item ${index}: ${error.message}`,\n          raw_response: item.json.message ? item.json.message.content : aiResponse,\n          title: '',\n          summary: '',\n          link: '',\n          source: '',\n          date: '',\n          importance: 0,\n          virality: 0\n        }\n      });\n    }\n  });\n} else {\n  // Fallback to single item processing\n  try {\n    const cleanedResponse = cleanResponse(aiResponse);\n    \n    let extractedData;\n    try {\n      const parsedJson = JSON.parse(cleanedResponse);\n      extractedData = {\n        title: parsedJson.title || parsedJson.article?.title || '',\n        summary: parsedJson.summary || parsedJson.article?.summary || '',\n        link: parsedJson.link || parsedJson.article?.link || '',\n        source: parsedJson.source || parsedJson.article?.source || '',\n        date: parsedJson.date || parsedJson.article?.date || '',\n        importance: parsedJson.importance || parsedJson.analysis?.importance || 0,\n        virality: parsedJson.virality || parsedJson.analysis?.virality || 0\n      };\n    } catch (jsonError) {\n      extractedData = {\n        title: extractField(cleanedResponse, 'title'),\n        summary: extractField(cleanedResponse, 'summary'),\n        link: extractField(cleanedResponse, 'link'),\n        source: extractField(cleanedResponse, 'source'),\n        date: extractField(cleanedResponse, 'date'),\n        importance: extractNumericField(cleanedResponse, 'importance'),\n        virality: extractNumericField(cleanedResponse, 'virality')\n      };\n    }\n    \n    Object.keys(extractedData).forEach(key => {\n      if (typeof extractedData[key] === 'string') {\n        extractedData[key] = extractedData[key]\n          .replace(/\\\\n/g, ' ')\n          .replace(/\\\\t/g, ' ')\n          .replace(/\\s+/g, ' ')\n          .trim();\n      }\n    });\n    \n    results.push({\n      json: {\n        title: extractedData.title,\n        summary: extractedData.summary,\n        link: extractedData.link,\n        source: extractedData.source,\n        date: extractedData.date,\n        importance: extractedData.importance,\n        virality: extractedData.virality\n      }\n    });\n    \n  } catch (error) {\n    results.push({\n      json: {\n        error: `Failed to extract data: ${error.message}`,\n        raw_response: aiResponse,\n        title: '',\n        summary: '',\n        link: '',\n        source: '',\n        date: '',\n        importance: 0,\n        virality: 0\n      }\n    });\n  }\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1520,
+        0
+      ],
+      "id": "f98a8004-3d64-4d97-a415-6193199839b4",
+      "name": "Extract Scored Data"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appGEmHkDqdbaGHJZ",
+          "mode": "list",
+          "cachedResultName": "n8n_test",
+          "cachedResultUrl": "https://airtable.com/appGEmHkDqdbaGHJZ"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblxaxBGLLdlu6a2p",
+          "mode": "list",
+          "cachedResultName": "Table 3",
+          "cachedResultUrl": "https://airtable.com/appGEmHkDqdbaGHJZ/tblxaxBGLLdlu6a2p"
+        },
+        "filterByFormula": "=AND(   Title = '{{ $json[\"title\"].replace(/'/g, \"\\\\'\") }}',   Link = '{{ $json[\"link\"].replace(/'/g, \"\\\\'\") }}' )",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1984,
+        32
+      ],
+      "id": "c9cbbf88-5415-4f99-9541-acf92860a934",
+      "name": "Check for Existing Articles",
+      "alwaysOutputData": true
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Filter Active Subscribers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Branch by Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable": {
+      "main": [
+        [
+          {
+            "node": "Replace Me1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "XML": {
+      "main": [
+        [
+          {
+            "node": "Extract Stories from Aggregator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Format RSS Item",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "XML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Check for Existing Articles",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Airtable",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Replace Me1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Score Articles with OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "config": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Active Subscribers": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Branch by Type": {
+      "main": [
+        [
+          {
+            "node": "Fetch RSS - Single",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Fetch RSS - Aggregator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch RSS - Single": {
+      "main": [
+        [
+          {
+            "node": "Format RSS Item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch RSS - Aggregator": {
+      "main": [
+        [
+          {
+            "node": "Split Aggregated and Single Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format RSS Item": {
+      "main": [
+        [
+          {
+            "node": "Filter Past 7 Days",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Aggregated and Single Items": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Stories from Aggregator": {
+      "main": [
+        [
+          {
+            "node": "Filter Past 7 Days",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Past 7 Days": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Score Articles with OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Extract Scored Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Scored Data": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check for Existing Articles": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "cc9aa82d-d227-4e69-8df4-af2cc0c37cd4",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "05b54d603a4515ed64ab5d16d072571530d1f62cd1eeb1e87bd7aae5ef2d0309"
+  },
+  "id": "RSAYRIzvhzeVi8A4",
+  "tags": []
+}
